@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Birthday Surprise</title>
+
+<style>
+
+body{
+margin:0;
+background:black;
+overflow:hidden;
+font-family:Arial;
+color:white;
+text-align:center;
+}
+
+/* MATRIX CANVAS */
+canvas{
+position:absolute;
+top:0;
+left:0;
+}
+
+/* CENTER TEXT */
+#centerText{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+font-size:120px;
+font-weight:900;
+letter-spacing:10px;
+color:#ff4da6;
+text-shadow:
+0 0 20px #ff4da6,
+0 0 40px #ff4da6,
+0 0 80px #ff4da6;
+animation: glowText 1.5s infinite alternate;
+}
+
+@keyframes glowText{
+from{ text-shadow:0 0 20px #ff4da6; }
+to{ text-shadow:0 0 80px #ff4da6; }
+}
+
+/* HEART */
+#heart{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(0);
+font-size:200px;
+text-shadow:
+0 0 20px red,
+0 0 40px red,
+0 0 80px red;
+animation: heartbeat 1s infinite;
+transition:1s;
+}
+
+</style>
+</head>
+
+<body>
+
+<audio id="music" autoplay loop>
+<source src="c:\Users\airel\OneDrive\Documents\Cert\birthday\No. 1 Party Anthem.mp3" type="audio/mpeg">
+</audio>
+
+<canvas id="matrix"></canvas>
+
+<div id="centerText">HAPPY</div>
+
+<div id="heart">❤️</div>
+
+
+<script>
+
+/* MATRIX EFFECT */
+
+var canvas=document.getElementById("matrix");
+var ctx=canvas.getContext("2d");
+
+canvas.height=window.innerHeight;
+canvas.width=window.innerWidth;
+
+var letters="HAPPYBIRTHDAYAUJI123456789";
+letters=letters.split("");
+
+var fontSize=16;
+var columns=canvas.width/fontSize;
+
+var drops=[];
+for(var x=0;x<columns;x++)
+drops[x]=1;
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,0.05)";
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+ctx.fillStyle="#ff4da6";
+ctx.font=fontSize+"px monospace";
+
+for(var i=0;i<drops.length;i++){
+
+var text=letters[Math.floor(Math.random()*letters.length)];
+
+ctx.fillText(text,i*fontSize,drops[i]*fontSize);
+
+if(drops[i]*fontSize>canvas.height && Math.random()>0.975)
+drops[i]=0;
+
+drops[i]++;
+
+}
+
+}
+
+setInterval(draw,33);
+
+
+/* TEXT SEQUENCE */
+
+var text=document.getElementById("centerText");
+var heart=document.getElementById("heart");
+
+setTimeout(()=>{text.innerHTML="BIRTHDAY"},3000);
+setTimeout(()=>{text.innerHTML="TO"},6000);
+setTimeout(()=>{text.innerHTML="AUJI MASTURINA"},9000);
+
+setTimeout(()=>{
+text.style.display="none";
+heart.style.transform="translate(-50%,-50%) scale(1)";
+},12000);
+
+
+
+setTimeout(()=>{
+
+heart.style.transform="translate(-50%,-50%) scale(0)";
+heart.style.opacity="0";
+
+setTimeout(()=>{
+
+heart.style.display="none";
+canvas.style.display="none";
+
+},1000);
+
+},15000);
+
+var music = document.getElementById("music");
+
+document.addEventListener("click", function(){
+    music.play();
+}, { once: true });
+
+</script>
+
+</body>
+</html>
